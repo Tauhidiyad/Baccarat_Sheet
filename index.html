@@ -45,7 +45,7 @@
 
   /* GLOBAL STATS */
   .stats-bar {
-    width: 100%; max-width: 680px;
+    width: 100%; max-width: 760px;
     display: grid; grid-template-columns: repeat(4, 1fr);
     border: 1px solid var(--border); border-radius: 3px;
     margin-bottom: 14px; background: var(--surface); overflow: hidden;
@@ -62,7 +62,7 @@
 
   /* STATUS BAR */
   .status-bar {
-    width: 100%; max-width: 680px;
+    width: 100%; max-width: 760px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-bottom: none;
@@ -91,7 +91,7 @@
 
   /* CARD */
   .card {
-    width: 100%; max-width: 680px;
+    width: 100%; max-width: 760px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-top: none;
@@ -130,8 +130,8 @@
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(201,168,76,0.14);
     border-radius: 2px; color: var(--cream);
-    font-family: 'EB Garamond', serif; font-size: 1rem;
-    padding: 6px 6px; width: 100%; text-align: center;
+    font-family: 'EB Garamond', serif; font-size: 0.95rem;
+    padding: 6px 4px; width: 100%; text-align: center;
     -webkit-appearance: none; appearance: none; outline: none;
     transition: border-color 0.2s, background 0.2s;
   }
@@ -172,11 +172,12 @@
   @keyframes fadeDown { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
   @keyframes fadeUp   { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
 
-  .col-num  { width: 50px; }
-  .col-unit { width: 110px; }
-  .col-bet  { width: 135px; }
-  .col-res  { width: 135px; }
-  .col-pnl  { width: 100px; }
+  .col-num   { width: 46px; }
+  .col-unit  { width: 95px; }
+  .col-bet   { width: 110px; }
+  .col-setup { width: 110px; }
+  .col-res   { width: 110px; }
+  .col-pnl   { width: 90px; }
 </style>
 </head>
 <body>
@@ -247,6 +248,7 @@
         <th class="col-num">#</th>
         <th class="col-unit">Unit Size</th>
         <th class="col-bet">Bet</th>
+        <th class="col-setup">Setup</th>
         <th class="col-res">Result</th>
         <th class="col-pnl">Stage P&amp;L</th>
       </tr>
@@ -293,7 +295,7 @@
 
   function init() {
     totalAccLoss = 0;
-    cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', res: '' }] }] }];
+    cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] }];
     render();
   }
 
@@ -383,6 +385,15 @@
               </select>
             </td>
             <td>
+              <select id="setup-${rowIndex}" onchange="onInput('${rowIndex}','setup',this.value)">
+                <option value="" ${row.setup===''?'selected':''}>— Select —</option>
+                <option value="S" ${row.setup==='S'?'selected':''}>S</option>
+                <option value="A" ${row.setup==='A'?'selected':''}>A</option>
+                <option value="B" ${row.setup==='B'?'selected':''}>B</option>
+                <option value="C" ${row.setup==='C'?'selected':''}>C</option>
+              </select>
+            </td>
+            <td>
               <select id="res-${rowIndex}" onchange="onInput('${rowIndex}','res',this.value)">
                 <option value="" ${row.res===''?'selected':''}>— Select —</option>
                 <option value="Win" ${row.res==='Win'?'selected':''}>Win</option>
@@ -447,7 +458,7 @@
   function insertDivider(text, type) {
     const tr = document.createElement('tr');
     tr.className = 'stage-divider-row';
-    tr.innerHTML = `<td colspan="5">
+    tr.innerHTML = `<td colspan="6">
       <div class="stage-divider-inner">
         <div class="sdl-line ${type}"></div>
         <div class="sdl-text ${type}">${text}</div>
@@ -489,18 +500,18 @@
     if (sp >= stage.target) {
       // Target hit — new cycle
       totalAccLoss = 0;
-      cycles.push({ stages: [{ target: 1, rows: [{ unit: '', bet: '', res: '' }] }] });
+      cycles.push({ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] });
 
     } else if (ri + 1 >= MAX_HANDS) {
       // 10 hands done, target not hit — new stage
       totalAccLoss = +(totalAccLoss + sp).toFixed(2);
       const newTarget = Math.abs(totalAccLoss) + 1;
-      cycle.stages.push({ target: newTarget, rows: [{ unit: '', bet: '', res: '' }] });
+      cycle.stages.push({ target: newTarget, rows: [{ unit: '', bet: '', setup: '', res: '' }] });
 
     } else {
       // Add next row in current stage
       if (ri + 1 >= stage.rows.length) {
-        stage.rows.push({ unit: '', bet: '', res: '' });
+        stage.rows.push({ unit: '', bet: '', setup: '', res: '' });
       }
     }
   }
