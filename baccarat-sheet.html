@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baccarat Record Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-bright: #e8c96a;
+    --gold-dim: #6b5020;
+    --gold-glow: rgba(201,168,76,0.13);
+    --bg: #0b0b0b;
+    --surface: #111111;
+    --cream: #f0e6cc;
+    --cream-dim: #a89070;
+    --win: #4db87a;
+    --loss: #c0392b;
+    --border: rgba(201,168,76,0.2);
+    --border-dim: rgba(201,168,76,0.09);
+  }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 16px 80px;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--cream);
+  }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 26px; animation: fadeDown 0.7s ease both; }
+  .header-spades { font-size: 1.2rem; color: var(--gold); letter-spacing: 0.5em; margin-bottom: 8px; text-shadow: 0 0 20px rgba(201,168,76,0.4); }
+  .header h1 { font-family: 'Cinzel', serif; font-weight: 900; font-size: clamp(2rem, 6vw, 3rem); color: var(--gold); letter-spacing: 0.25em; text-transform: uppercase; text-shadow: 0 0 60px rgba(201,168,76,0.3), 0 2px 0 rgba(0,0,0,0.8); line-height: 1; }
+  .header-rule { display: flex; align-items: center; gap: 10px; margin: 12px auto 0; width: 200px; }
+  .hr-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dim)); }
+  .hr-line.r { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+  .hr-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  /* GLOBAL STATS */
+  .stats-bar {
+    width: 100%; max-width: 680px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border); border-radius: 3px;
+    margin-bottom: 14px; background: var(--surface); overflow: hidden;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .stat-cell { padding: 13px 8px; text-align: center; border-right: 1px solid var(--border); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-label { font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 4px; }
+  .stat-value { font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700; color: var(--gold); }
+  .sv-win { color: var(--win); }
+  .sv-loss { color: var(--loss); }
+  .sv-pos { color: var(--win); }
+  .sv-neg { color: var(--loss); }
+
+  /* STATUS BAR */
+  .status-bar {
+    width: 100%; max-width: 680px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    animation: fadeUp 0.7s ease 0.15s both;
+  }
+
+  .status-inner {
+    display: flex;
+    align-items: stretch;
+    padding: 14px 18px;
+    gap: 28px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .si-item { display: flex; flex-direction: column; }
+  .si-label { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 3px; }
+  .si-value { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--gold); }
+  .si-value.big { font-size: 1.1rem; color: var(--gold-bright); }
+
+  /* Suggestion bar */
+  .suggestion-bar { display: none; background: rgba(201,168,76,0.05); border-bottom: 1px solid rgba(201,168,76,0.1); padding: 9px 18px; font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-dim); }
+  .suggestion-bar.show { display: block; }
+  .suggestion-bar span { color: var(--gold); font-weight: 700; }
+
+  /* CARD */
+  .card {
+    width: 100%; max-width: 680px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+    overflow: hidden;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: linear-gradient(180deg, rgba(201,168,76,0.11) 0%, rgba(201,168,76,0.03) 100%); border-bottom: 1px solid var(--gold-dim); }
+  th { font-family: 'Cinzel', serif; font-size: 0.57rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 12px 10px; text-align: center; }
+  tbody tr { border-bottom: 1px solid rgba(201,168,76,0.07); transition: background 0.12s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(201,168,76,0.03); }
+  td { padding: 9px 10px; text-align: center; vertical-align: middle; }
+
+  /* Stage divider row */
+  .stage-divider-row td { padding: 0 !important; border: none !important; background: transparent !important; }
+  .stage-divider-row:hover { background: transparent !important; }
+  .stage-divider-inner { display: flex; align-items: center; gap: 10px; padding: 10px 14px 4px; }
+  .sdl-line { flex: 1; height: 1px; }
+  .sdl-line.stage { background: rgba(201,168,76,0.25); }
+  .sdl-line.cycle { background: rgba(201,168,76,0.6); }
+  .sdl-text { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
+  .sdl-text.stage { color: var(--gold-dim); }
+  .sdl-text.cycle { color: var(--gold); }
+
+  /* Row number */
+  .row-num { font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--gold-dim); }
+  .row-num.active { color: var(--gold); }
+
+  /* Inputs */
+  input[type="number"], select {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.14);
+    border-radius: 2px; color: var(--cream);
+    font-family: 'EB Garamond', serif; font-size: 1rem;
+    padding: 6px 6px; width: 100%; text-align: center;
+    -webkit-appearance: none; appearance: none; outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input[type="number"]:focus, select:focus { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+  input[type="number"]::placeholder { color: rgba(201,168,76,0.22); font-style: italic; }
+  select option { background: #111; color: var(--cream); }
+  .sel-win  { color: var(--win) !important; }
+  .sel-loss { color: var(--loss) !important; }
+
+  /* P&L cell */
+  .pnl-cell { font-family: 'Cinzel', serif; font-size: 0.8rem; }
+  .pnl-pos  { color: var(--win); }
+  .pnl-neg  { color: var(--loss); }
+  .pnl-zero { color: var(--cream-dim); }
+  .hit-tag { display: block; font-size: 0.44rem; letter-spacing: 0.14em; color: var(--win); text-transform: uppercase; margin-top: 2px; }
+
+  /* FOOTER */
+  .footer-bar { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; background: rgba(0,0,0,0.25); border-top: 1px solid var(--gold-dim); flex-wrap: wrap; gap: 10px; }
+  .footer-info { font-family: 'Cinzel', serif; font-size: 0.57rem; letter-spacing: 0.14em; color: var(--cream-dim); text-transform: uppercase; }
+  .footer-info span { color: var(--gold); }
+  .btn-new { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold-dim); border-radius: 2px; padding: 9px 18px; cursor: pointer; transition: all 0.2s; }
+  .btn-new:hover { background: var(--gold-glow); border-color: var(--gold); }
+  .btn-new:active { transform: scale(0.97); }
+
+  /* MODAL */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 100; align-items: center; justify-content: center; }
+  .overlay.show { display: flex; }
+  .modal { background: #0e0e0e; border: 1px solid var(--gold-dim); border-radius: 3px; padding: 36px 40px; text-align: center; max-width: 300px; box-shadow: 0 20px 80px rgba(0,0,0,0.9); animation: fadeUp 0.2s ease; }
+  .modal h2 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.9rem; letter-spacing: 0.12em; margin-bottom: 10px; }
+  .modal p { color: var(--cream-dim); font-size: 0.9rem; font-style: italic; margin-bottom: 24px; line-height: 1.5; }
+  .modal-btns { display: flex; gap: 10px; justify-content: center; }
+  .btn-confirm { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 9px 20px; border-radius: 2px; cursor: pointer; transition: all 0.2s; border: 1px solid; }
+  .btn-confirm.danger { background: rgba(192,57,43,0.12); border-color: #c0392b; color: #e57373; }
+  .btn-confirm.danger:hover { background: rgba(192,57,43,0.28); }
+  .btn-confirm.cancel { background: transparent; border-color: var(--gold-dim); color: var(--cream-dim); }
+  .btn-confirm.cancel:hover { background: var(--gold-glow); }
+
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
+
+  .col-num   { width: 50px; }
+  .col-unit  { width: 105px; }
+  .col-bet   { width: 120px; }
+  .col-setup { width: 90px; }
+  .col-res   { width: 120px; }
+  .col-pnl   { width: 95px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-spades">♠ ♦ ♣ ♥</div>
+  <h1>BACCARAT</h1>
+  <div class="header-rule">
+    <div class="hr-line"></div><div class="hr-diamond"></div><div class="hr-line r"></div>
+  </div>
+</div>
+
+<!-- GLOBAL STATS -->
+<div class="stats-bar">
+  <div class="stat-cell">
+    <div class="stat-label">Total Hands</div>
+    <div class="stat-value" id="s-rounds">0</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Wins</div>
+    <div class="stat-value sv-win" id="s-wins">0</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Losses</div>
+    <div class="stat-value sv-loss" id="s-losses">0</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Net Units</div>
+    <div class="stat-value" id="s-net">0</div>
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-inner">
+    <div class="si-item">
+      <span class="si-label">Cycle</span>
+      <span class="si-value" id="ch-cycle">1</span>
+    </div>
+    <div class="si-item">
+      <span class="si-label">Stage</span>
+      <span class="si-value" id="ch-stage">1</span>
+    </div>
+    <div class="si-item">
+      <span class="si-label">Stage Target</span>
+      <span class="si-value big" id="ch-target">+1 unit</span>
+    </div>
+    <div class="si-item">
+      <span class="si-label">Stage P&amp;L</span>
+      <span class="si-value" id="ch-pnl">0</span>
+    </div>
+    <div class="si-item">
+      <span class="si-label">Acc. Loss</span>
+      <span class="si-value" id="ch-accloss">0</span>
+    </div>
+  </div>
+  <div class="suggestion-bar" id="suggestion-bar">
+    Suggested unit size: <span id="suggested-unit">—</span> &nbsp;·&nbsp; Suggested target: <span id="suggested-target">—</span>
+  </div>
+</div>
+
+<!-- CARD -->
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-num">#</th>
+        <th class="col-unit">Unit Size</th>
+        <th class="col-bet">Bet</th>
+        <th class="col-setup">Setup</th>
+        <th class="col-res">Result</th>
+        <th class="col-pnl">Stage P&amp;L</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="footer-bar">
+    <div class="footer-info">
+      Cycle <span id="f-cycle">1</span> &nbsp;·&nbsp;
+      Stage <span id="f-stage">1</span> &nbsp;·&nbsp;
+      Hand <span id="f-hand">—</span> / 10
+    </div>
+    <button class="btn-new" onclick="askClear()">⟳ &nbsp;New Record</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Clear All Data?</h2>
+    <p>This resets the sheet for a new session and cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="btn-confirm cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm danger" onclick="clearSheet()">Clear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /*
+    STATE STRUCTURE:
+    cycles = array of cycles
+    each cycle = { stages: [ { target, rows: [{unit, bet, res}] } ] }
+    A cycle ends when any stage hits its target → new cycle starts (unit=1, target=1)
+    A stage ends after 10 hands without hitting target → new stage starts with recalculated unit
+    totalAccLoss = running loss across all failed stages in current cycle (resets on cycle success)
+  */
+
+  const MAX_HANDS = 10;
+  const tbody = document.getElementById('tbody');
+
+  let cycles = [];
+  let totalAccLoss = 0;
+
+  function init() {
+    totalAccLoss = 0;
+    cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] }];
+    render();
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function currentCycle()  { return cycles[cycles.length - 1]; }
+  function currentStage()  { const c = currentCycle(); return c.stages[c.stages.length - 1]; }
+  function cycleNumber()   { return cycles.length; }
+  function stageNumber()   { return currentCycle().stages.length; }
+
+  function stagePnl(stage) {
+    let pnl = 0;
+    stage.rows.forEach(r => {
+      if (r.unit !== '' && r.bet !== '' && r.res !== '') {
+        const u = parseFloat(r.unit);
+        pnl = +(pnl + (r.res === 'Win' ? u : -u)).toFixed(2);
+      }
+    });
+    return pnl;
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+  function render() {
+    tbody.innerHTML = '';
+
+    let globalWins = 0, globalLosses = 0, globalRounds = 0, globalNet = 0;
+    let currentHandNum = 0;
+
+    cycles.forEach((cycle, ci) => {
+      const isLastCycle = ci === cycles.length - 1;
+
+      // Cycle start divider (not for first)
+      if (ci > 0) {
+        insertDivider(`— Cycle ${ci + 1} · Stage 1 · Unit: 1 · Target: +1 —`, 'cycle');
+      }
+
+      cycle.stages.forEach((stage, si) => {
+        const isLastStage = si === cycle.stages.length - 1;
+        const isCurrentStage = isLastCycle && isLastStage;
+
+        // Stage divider (not for first stage of first cycle, not for first stage after cycle divider)
+        if (!(ci === 0 && si === 0) && !(ci > 0 && si === 0)) {
+          insertDivider(`Stage ${si + 1} · Unit: ${stage.target} · Target: +${stage.target}`, 'stage');
+        }
+
+        let stagePnlVal = 0;
+
+        stage.rows.forEach((row, ri) => {
+          const rowIndex = `${ci}-${si}-${ri}`;
+          const filled = row.unit !== '' && row.bet !== '' && row.res !== '';
+          let rowPnl = 0;
+
+          if (filled) {
+            globalRounds++;
+            rowPnl = row.res === 'Win' ? parseFloat(row.unit) : -parseFloat(row.unit);
+            if (row.res === 'Win') globalWins++; else globalLosses++;
+            stagePnlVal = +(stagePnlVal + rowPnl).toFixed(2);
+            globalNet   = +(globalNet + rowPnl).toFixed(2);
+            if (isCurrentStage) currentHandNum = ri + 1;
+          }
+
+          const displayNum = filled ? String(ri + 1).padStart(2, '0') : '—';
+          const numCls = filled ? 'row-num active' : 'row-num';
+
+          // P&L display
+          let pnlHtml = '—';
+          if (filled) {
+            const sign = stagePnlVal >= 0 ? '+' : '';
+            const cls  = stagePnlVal > 0 ? 'pnl-pos' : stagePnlVal < 0 ? 'pnl-neg' : 'pnl-zero';
+            const isHit = stagePnlVal >= stage.target && ri === stage.rows.length - 1 && !isCurrentStage;
+            const tag = isHit ? `<span class="hit-tag">✓ target hit</span>` : '';
+            pnlHtml = `<span class="${cls}">${sign}${stagePnlVal}</span>${tag}`;
+          }
+
+          const tr = document.createElement('tr');
+          tr.id = `tr-${rowIndex}`;
+          tr.innerHTML = `
+            <td><span class="${numCls}">${displayNum}</span></td>
+            <td><input type="number" id="unit-${rowIndex}" min="0" step="any"
+              placeholder="${stage.target}"
+              value="${row.unit}"
+              oninput="onInput('${rowIndex}','unit',this.value)" /></td>
+            <td>
+              <select id="bet-${rowIndex}" onchange="onInput('${rowIndex}','bet',this.value)">
+                <option value="" ${row.bet===''?'selected':''}>— Select —</option>
+                <option value="Player" ${row.bet==='Player'?'selected':''}>Player</option>
+                <option value="Banker" ${row.bet==='Banker'?'selected':''}>Banker</option>
+              </select>
+            </td>
+            <td>
+              <select id="setup-${rowIndex}" onchange="onInput('${rowIndex}','setup',this.value)">
+                <option value="" ${row.setup===''?'selected':''}>—</option>
+                <option value="S" ${row.setup==='S'?'selected':''}>S</option>
+                <option value="A" ${row.setup==='A'?'selected':''}>A</option>
+                <option value="B" ${row.setup==='B'?'selected':''}>B</option>
+                <option value="C" ${row.setup==='C'?'selected':''}>C</option>
+              </select>
+            </td>
+            <td>
+              <select id="res-${rowIndex}" onchange="onInput('${rowIndex}','res',this.value)">
+                <option value="" ${row.res===''?'selected':''}>— Select —</option>
+                <option value="Win" ${row.res==='Win'?'selected':''}>Win</option>
+                <option value="Loss" ${row.res==='Loss'?'selected':''}>Loss</option>
+              </select>
+            </td>
+            <td class="pnl-cell">${pnlHtml}</td>
+          `;
+          tbody.appendChild(tr);
+
+          const resEl = document.getElementById(`res-${rowIndex}`);
+          if (resEl) {
+            resEl.classList.remove('sel-win','sel-loss');
+            if (row.res === 'Win')  resEl.classList.add('sel-win');
+            if (row.res === 'Loss') resEl.classList.add('sel-loss');
+          }
+        });
+      });
+    });
+
+    // ── Status bar ────────────────────────────────────────────────────────
+    const cs = currentStage();
+    const csPnl = stagePnl(cs);
+    const csPnlSign = csPnl >= 0 ? '+' : '';
+
+    document.getElementById('ch-cycle').textContent  = cycleNumber();
+    document.getElementById('ch-stage').textContent  = stageNumber();
+    document.getElementById('ch-target').textContent = `+${cs.target} unit${cs.target !== 1 ? 's' : ''}`;
+
+    const pnlEl = document.getElementById('ch-pnl');
+    pnlEl.textContent = csPnlSign + csPnl;
+    pnlEl.className = 'si-value ' + (csPnl > 0 ? 'sv-pos' : csPnl < 0 ? 'sv-neg' : '');
+
+    const accEl = document.getElementById('ch-accloss');
+    accEl.textContent = totalAccLoss === 0 ? '0' : totalAccLoss;
+    accEl.className = 'si-value ' + (totalAccLoss < 0 ? 'sv-neg' : '');
+
+    // Suggestion bar
+    const sugBar = document.getElementById('suggestion-bar');
+    if (totalAccLoss < 0) {
+      const sug = Math.abs(totalAccLoss) + 1;
+      document.getElementById('suggested-unit').textContent   = sug;
+      document.getElementById('suggested-target').textContent = `+${sug}`;
+      sugBar.classList.add('show');
+    } else {
+      sugBar.classList.remove('show');
+    }
+
+    // Global stats
+    document.getElementById('s-rounds').textContent = globalRounds;
+    document.getElementById('s-wins').textContent   = globalWins;
+    document.getElementById('s-losses').textContent = globalLosses;
+    const netEl = document.getElementById('s-net');
+    netEl.textContent = (globalNet >= 0 ? '+' : '') + globalNet;
+    netEl.className = 'stat-value ' + (globalNet > 0 ? 'sv-pos' : globalNet < 0 ? 'sv-neg' : '');
+
+    document.getElementById('f-cycle').textContent = cycleNumber();
+    document.getElementById('f-stage').textContent = stageNumber();
+    document.getElementById('f-hand').textContent  = currentHandNum || '—';
+  }
+
+  function insertDivider(text, type) {
+    const tr = document.createElement('tr');
+    tr.className = 'stage-divider-row';
+    tr.innerHTML = `<td colspan="6">
+      <div class="stage-divider-inner">
+        <div class="sdl-line ${type}"></div>
+        <div class="sdl-text ${type}">${text}</div>
+        <div class="sdl-line ${type}"></div>
+      </div>
+    </td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── Input handler ─────────────────────────────────────────────────────────
+  function onInput(rowIndex, field, value) {
+    const [ci, si, ri] = rowIndex.split('-').map(Number);
+    cycles[ci].stages[si].rows[ri][field] = value;
+    checkAndExpand(ci, si, ri);
+    render();
+  }
+
+  function checkAndExpand(ci, si, ri) {
+    const isLastCycle = ci === cycles.length - 1;
+    const cycle = cycles[ci];
+    const isLastStage = si === cycle.stages.length - 1;
+    if (!isLastCycle || !isLastStage) return;
+
+    const stage = cycle.stages[si];
+    const row   = stage.rows[ri];
+    const filled = row.unit !== '' && row.bet !== '' && row.res !== '';
+    if (!filled) return;
+
+    // Recalc stage pnl up to this row
+    let sp = 0;
+    for (let r = 0; r <= ri; r++) {
+      const rr = stage.rows[r];
+      if (rr.unit !== '' && rr.bet !== '' && rr.res !== '') {
+        const u = parseFloat(rr.unit);
+        sp = +(sp + (rr.res === 'Win' ? u : -u)).toFixed(2);
+      }
+    }
+
+    if (sp >= stage.target) {
+      // Target hit — new cycle
+      totalAccLoss = 0;
+      cycles.push({ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] });
+
+    } else if (ri + 1 >= MAX_HANDS) {
+      // 10 hands done, target not hit — new stage
+      totalAccLoss = +(totalAccLoss + sp).toFixed(2);
+      const newTarget = Math.abs(totalAccLoss) + 1;
+      cycle.stages.push({ target: newTarget, rows: [{ unit: '', bet: '', setup: '', res: '' }] });
+
+    } else {
+      // Add next row in current stage
+      if (ri + 1 >= stage.rows.length) {
+        stage.rows.push({ unit: '', bet: '', setup: '', res: '' });
+      }
+    }
+  }
+
+  // ── Controls ──────────────────────────────────────────────────────────────
+  function askClear() { document.getElementById('overlay').classList.add('show'); }
+  function closeModal() { document.getElementById('overlay').classList.remove('show'); }
+  function clearSheet() { closeModal(); init(); }
+  document.getElementById('overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+  init();
+</script>
+</body>
+</html>
