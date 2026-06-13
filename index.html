@@ -15,6 +15,7 @@
     --gold-glow: rgba(201,168,76,0.13);
     --bg: #0b0b0b;
     --surface: #111111;
+    --surface2: #0d0d0d;
     --cream: #f0e6cc;
     --cream-dim: #a89070;
     --win: #4db87a;
@@ -23,16 +24,7 @@
     --border-dim: rgba(201,168,76,0.09);
   }
 
-  body {
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 36px 16px 80px;
-    font-family: 'EB Garamond', Georgia, serif;
-    color: var(--cream);
-  }
+  body { background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 36px 16px 80px; font-family: 'EB Garamond', Georgia, serif; color: var(--cream); }
 
   /* HEADER */
   .header { text-align: center; margin-bottom: 26px; animation: fadeDown 0.7s ease both; }
@@ -44,121 +36,77 @@
   .hr-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
 
   /* GLOBAL STATS */
-  .stats-bar {
-    width: 100%; max-width: 760px;
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    border: 1px solid var(--border); border-radius: 3px;
-    margin-bottom: 14px; background: var(--surface); overflow: hidden;
-    animation: fadeUp 0.7s ease 0.1s both;
-  }
+  .stats-bar { width: 100%; max-width: 760px; display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 14px; background: var(--surface); overflow: hidden; animation: fadeUp 0.7s ease 0.1s both; }
   .stat-cell { padding: 13px 8px; text-align: center; border-right: 1px solid var(--border); }
   .stat-cell:last-child { border-right: none; }
   .stat-label { font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 4px; }
   .stat-value { font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700; color: var(--gold); }
-  .sv-win { color: var(--win); }
-  .sv-loss { color: var(--loss); }
-  .sv-pos { color: var(--win); }
-  .sv-neg { color: var(--loss); }
+  .sv-win { color: var(--win); } .sv-loss { color: var(--loss); } .sv-pos { color: var(--win); } .sv-neg { color: var(--loss); } .sv-neutral { color: var(--gold); }
 
   /* STATUS BAR */
-  .status-bar {
-    width: 100%; max-width: 760px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-bottom: none;
-    border-radius: 3px 3px 0 0;
-    animation: fadeUp 0.7s ease 0.15s both;
-  }
-
-  .status-inner {
-    display: flex;
-    align-items: stretch;
-    padding: 14px 18px;
-    gap: 28px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border-dim);
-  }
-
+  .status-bar { width: 100%; max-width: 760px; background: var(--surface); border: 1px solid var(--border); border-bottom: none; border-radius: 3px 3px 0 0; animation: fadeUp 0.7s ease 0.15s both; }
+  .status-inner { display: flex; align-items: stretch; padding: 14px 18px; gap: 28px; flex-wrap: wrap; border-bottom: 1px solid var(--border-dim); }
   .si-item { display: flex; flex-direction: column; }
   .si-label { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 3px; }
   .si-value { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; color: var(--gold); }
   .si-value.big { font-size: 1.1rem; color: var(--gold-bright); }
-
-  /* Suggestion bar */
   .suggestion-bar { display: none; background: rgba(201,168,76,0.05); border-bottom: 1px solid rgba(201,168,76,0.1); padding: 9px 18px; font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-dim); }
   .suggestion-bar.show { display: block; }
   .suggestion-bar span { color: var(--gold); font-weight: 700; }
 
   /* CARD */
-  .card {
-    width: 100%; max-width: 760px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 3px 3px;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.8);
-    overflow: hidden;
-    animation: fadeUp 0.7s ease 0.2s both;
-  }
+  .card { width: 100%; max-width: 760px; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; box-shadow: 0 24px 80px rgba(0,0,0,0.8); overflow: hidden; animation: fadeUp 0.7s ease 0.2s both; }
 
   /* TABLE */
   table { width: 100%; border-collapse: collapse; }
   thead tr { background: linear-gradient(180deg, rgba(201,168,76,0.11) 0%, rgba(201,168,76,0.03) 100%); border-bottom: 1px solid var(--gold-dim); }
-  th { font-family: 'Cinzel', serif; font-size: 0.57rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); padding: 12px 10px; text-align: center; }
+  th { font-family: 'Cinzel', serif; font-size: 0.55rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); padding: 12px 8px; text-align: center; }
   tbody tr { border-bottom: 1px solid rgba(201,168,76,0.07); transition: background 0.12s; }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: rgba(201,168,76,0.03); }
-  td { padding: 9px 10px; text-align: center; vertical-align: middle; }
+  td { padding: 8px 8px; text-align: center; vertical-align: middle; }
 
-  /* Stage divider row */
   .stage-divider-row td { padding: 0 !important; border: none !important; background: transparent !important; }
   .stage-divider-row:hover { background: transparent !important; }
   .stage-divider-inner { display: flex; align-items: center; gap: 10px; padding: 10px 14px 4px; }
   .sdl-line { flex: 1; height: 1px; }
   .sdl-line.stage { background: rgba(201,168,76,0.25); }
   .sdl-line.cycle { background: rgba(201,168,76,0.6); }
-  .sdl-text { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
+  .sdl-text { font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
   .sdl-text.stage { color: var(--gold-dim); }
   .sdl-text.cycle { color: var(--gold); }
 
-  /* Row number */
-  .row-num { font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--gold-dim); }
+  .row-num { font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--gold-dim); }
   .row-num.active { color: var(--gold); }
 
-  /* Inputs */
-  input[type="number"], select {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(201,168,76,0.14);
-    border-radius: 2px; color: var(--cream);
-    font-family: 'EB Garamond', serif; font-size: 0.95rem;
-    padding: 6px 4px; width: 100%; text-align: center;
-    -webkit-appearance: none; appearance: none; outline: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
+  input[type="number"], select { background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.14); border-radius: 2px; color: var(--cream); font-family: 'EB Garamond', serif; font-size: 0.92rem; padding: 5px 3px; width: 100%; text-align: center; -webkit-appearance: none; appearance: none; outline: none; transition: border-color 0.2s, background 0.2s; }
   input[type="number"]:focus, select:focus { border-color: var(--gold); background: rgba(201,168,76,0.05); }
   input[type="number"]::placeholder { color: rgba(201,168,76,0.22); font-style: italic; }
   select option { background: #111; color: var(--cream); }
-  .sel-win  { color: var(--win) !important; }
-  .sel-loss { color: var(--loss) !important; }
+  .sel-win { color: var(--win) !important; } .sel-loss { color: var(--loss) !important; }
 
-  /* P&L cell */
-  .pnl-cell { font-family: 'Cinzel', serif; font-size: 0.8rem; }
-  .pnl-pos  { color: var(--win); }
-  .pnl-neg  { color: var(--loss); }
-  .pnl-zero { color: var(--cream-dim); }
-  .hit-tag { display: block; font-size: 0.44rem; letter-spacing: 0.14em; color: var(--win); text-transform: uppercase; margin-top: 2px; }
+  .pnl-cell { font-family: 'Cinzel', serif; font-size: 0.78rem; }
+  .pnl-pos { color: var(--win); } .pnl-neg { color: var(--loss); } .pnl-zero { color: var(--cream-dim); }
+  .hit-tag { display: block; font-size: 0.42rem; letter-spacing: 0.14em; color: var(--win); text-transform: uppercase; margin-top: 2px; }
 
   /* FOOTER */
   .footer-bar { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; background: rgba(0,0,0,0.25); border-top: 1px solid var(--gold-dim); flex-wrap: wrap; gap: 10px; }
   .footer-info { font-family: 'Cinzel', serif; font-size: 0.57rem; letter-spacing: 0.14em; color: var(--cream-dim); text-transform: uppercase; }
   .footer-info span { color: var(--gold); }
-  .btn-new { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); background: transparent; border: 1px solid var(--gold-dim); border-radius: 2px; padding: 9px 18px; cursor: pointer; transition: all 0.2s; }
-  .btn-new:hover { background: var(--gold-glow); border-color: var(--gold); }
-  .btn-new:active { transform: scale(0.97); }
+  .footer-btns { display: flex; gap: 10px; }
+  .btn-footer { font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; background: transparent; border: 1px solid var(--gold-dim); border-radius: 2px; padding: 9px 18px; cursor: pointer; transition: all 0.2s; color: var(--gold); }
+  .btn-footer:hover { background: var(--gold-glow); border-color: var(--gold); }
+  .btn-footer:active { transform: scale(0.97); }
+  .btn-footer.record-btn { color: var(--cream-dim); }
+  .btn-footer.record-btn:hover { color: var(--gold); }
+  .rec-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-dim); flex-shrink: 0; display: inline-block; margin-right: 7px; transition: background 0.25s, box-shadow 0.25s; vertical-align: middle; position: relative; top: -1px; }
+  .btn-footer.record-btn:hover .rec-dot { background: var(--gold); box-shadow: 0 0 7px rgba(201,168,76,0.7); }
 
-  /* MODAL */
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 100; align-items: center; justify-content: center; }
+  /* ── OVERLAY BASE ── */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; }
   .overlay.show { display: flex; }
+
+  /* NEW RECORD MODAL */
   .modal { background: #0e0e0e; border: 1px solid var(--gold-dim); border-radius: 3px; padding: 36px 40px; text-align: center; max-width: 300px; box-shadow: 0 20px 80px rgba(0,0,0,0.9); animation: fadeUp 0.2s ease; }
   .modal h2 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.9rem; letter-spacing: 0.12em; margin-bottom: 10px; }
   .modal p { color: var(--cream-dim); font-size: 0.9rem; font-style: italic; margin-bottom: 24px; line-height: 1.5; }
@@ -169,78 +117,110 @@
   .btn-confirm.cancel { background: transparent; border-color: var(--gold-dim); color: var(--cream-dim); }
   .btn-confirm.cancel:hover { background: var(--gold-glow); }
 
+  /* ── RECORD PANEL ── */
+  .record-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 200; flex-direction: column; }
+  .record-overlay.show { display: flex; }
+
+  .record-panel { display: flex; flex-direction: column; height: 100%; max-width: 820px; width: 100%; margin: 0 auto; }
+
+  .record-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .record-header h2 { font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+  .record-count { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--cream-dim); text-transform: uppercase; }
+  .btn-close { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim); background: transparent; border: 1px solid var(--gold-dim); border-radius: 2px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; }
+  .btn-close:hover { color: var(--gold); border-color: var(--gold); background: var(--gold-glow); }
+
+  .record-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .record-body::-webkit-scrollbar { width: 4px; }
+  .record-body::-webkit-scrollbar-track { background: transparent; }
+  .record-body::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+  .record-empty { text-align: center; padding: 60px 20px; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase; }
+
+  /* Session card */
+  .session-card { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+
+  .session-card-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: linear-gradient(180deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.03) 100%); border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+  .session-card-header:hover { background: linear-gradient(180deg, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.06) 100%); }
+
+  .session-title { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; }
+  .session-date { font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.1em; color: var(--cream-dim); text-transform: uppercase; }
+
+  .session-summary { display: flex; gap: 20px; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid var(--border-dim); }
+  .ss-item { display: flex; flex-direction: column; }
+  .ss-label { font-family: 'Cinzel', serif; font-size: 0.46rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 2px; }
+  .ss-value { font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 700; color: var(--gold); }
+
+  .session-detail { display: none; padding: 12px 16px; }
+  .session-detail.open { display: block; }
+
+  /* Mini table inside record */
+  .mini-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  .mini-table thead tr { background: rgba(201,168,76,0.07); border-bottom: 1px solid var(--gold-dim); }
+  .mini-table th { font-family: 'Cinzel', serif; font-size: 0.46rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-dim); padding: 7px 8px; text-align: center; }
+  .mini-table tbody tr { border-bottom: 1px solid rgba(201,168,76,0.06); }
+  .mini-table tbody tr:last-child { border-bottom: none; }
+  .mini-table td { font-family: 'EB Garamond', serif; font-size: 0.82rem; padding: 6px 8px; text-align: center; color: var(--cream-dim); }
+  .mini-table td.num { font-family: 'Cinzel', serif; font-size: 0.7rem; color: var(--gold-dim); }
+  .mt-win { color: var(--win) !important; }
+  .mt-loss { color: var(--loss) !important; }
+  .mt-pos { color: var(--win) !important; font-family: 'Cinzel', serif !important; font-size: 0.75rem !important; }
+  .mt-neg { color: var(--loss) !important; font-family: 'Cinzel', serif !important; font-size: 0.75rem !important; }
+
+  .mini-divider { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+  .mini-divider-line { flex: 1; height: 1px; }
+  .mini-divider-line.stage { background: rgba(201,168,76,0.2); }
+  .mini-divider-line.cycle { background: rgba(201,168,76,0.5); }
+  .mini-divider-text { font-family: 'Cinzel', serif; font-size: 0.42rem; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
+  .mini-divider-text.stage { color: var(--gold-dim); }
+  .mini-divider-text.cycle { color: var(--gold); }
+
+  .chevron { font-size: 0.6rem; color: var(--gold-dim); transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* Delete session */
+  .btn-delete-session { font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.14em; text-transform: uppercase; color: #e57373; background: transparent; border: 1px solid rgba(192,57,43,0.3); border-radius: 2px; padding: 5px 12px; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+  .btn-delete-session:hover { background: rgba(192,57,43,0.15); border-color: #c0392b; }
+
   @keyframes fadeDown { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
   @keyframes fadeUp   { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
 
-  .col-num   { width: 46px; }
-  .col-unit  { width: 95px; }
-  .col-bet   { width: 110px; }
-  .col-setup { width: 110px; }
-  .col-res   { width: 110px; }
-  .col-pnl   { width: 90px; }
+  .col-num   { width: 44px; }
+  .col-unit  { width: 92px; }
+  .col-bet   { width: 105px; }
+  .col-setup { width: 105px; }
+  .col-res   { width: 105px; }
+  .col-pnl   { width: 88px; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-spades">♠ ♦ ♣ ♥</div>
   <h1>BACCARAT</h1>
-  <div class="header-rule">
-    <div class="hr-line"></div><div class="hr-diamond"></div><div class="hr-line r"></div>
-  </div>
+  <div class="header-rule"><div class="hr-line"></div><div class="hr-diamond"></div><div class="hr-line r"></div></div>
 </div>
 
-<!-- GLOBAL STATS -->
 <div class="stats-bar">
-  <div class="stat-cell">
-    <div class="stat-label">Total Hands</div>
-    <div class="stat-value" id="s-rounds">0</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-label">Wins</div>
-    <div class="stat-value sv-win" id="s-wins">0</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-label">Losses</div>
-    <div class="stat-value sv-loss" id="s-losses">0</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-label">Net Units</div>
-    <div class="stat-value" id="s-net">0</div>
-  </div>
+  <div class="stat-cell"><div class="stat-label">Total Hands</div><div class="stat-value" id="s-rounds">0</div></div>
+  <div class="stat-cell"><div class="stat-label">Wins</div><div class="stat-value sv-win" id="s-wins">0</div></div>
+  <div class="stat-cell"><div class="stat-label">Losses</div><div class="stat-value sv-loss" id="s-losses">0</div></div>
+  <div class="stat-cell"><div class="stat-label">Win Rate</div><div class="stat-value sv-neutral" id="s-winrate">—</div></div>
+  <div class="stat-cell"><div class="stat-label">Net Units</div><div class="stat-value" id="s-net">0</div></div>
 </div>
 
-<!-- STATUS BAR -->
 <div class="status-bar">
   <div class="status-inner">
-    <div class="si-item">
-      <span class="si-label">Cycle</span>
-      <span class="si-value" id="ch-cycle">1</span>
-    </div>
-    <div class="si-item">
-      <span class="si-label">Stage</span>
-      <span class="si-value" id="ch-stage">1</span>
-    </div>
-    <div class="si-item">
-      <span class="si-label">Stage Target</span>
-      <span class="si-value big" id="ch-target">+1 unit</span>
-    </div>
-    <div class="si-item">
-      <span class="si-label">Stage P&amp;L</span>
-      <span class="si-value" id="ch-pnl">0</span>
-    </div>
-    <div class="si-item">
-      <span class="si-label">Acc. Loss</span>
-      <span class="si-value" id="ch-accloss">0</span>
-    </div>
+    <div class="si-item"><span class="si-label">Cycle</span><span class="si-value" id="ch-cycle">1</span></div>
+    <div class="si-item"><span class="si-label">Stage</span><span class="si-value" id="ch-stage">1</span></div>
+    <div class="si-item"><span class="si-label">Stage Target</span><span class="si-value big" id="ch-target">+1 unit</span></div>
+    <div class="si-item"><span class="si-label">Stage P&amp;L</span><span class="si-value" id="ch-pnl">0</span></div>
+    <div class="si-item"><span class="si-label">Acc. Loss</span><span class="si-value" id="ch-accloss">0</span></div>
   </div>
   <div class="suggestion-bar" id="suggestion-bar">
     Suggested unit size: <span id="suggested-unit">—</span> &nbsp;·&nbsp; Suggested target: <span id="suggested-target">—</span>
   </div>
 </div>
 
-<!-- CARD -->
 <div class="card">
   <table>
     <thead>
@@ -256,54 +236,113 @@
     <tbody id="tbody"></tbody>
   </table>
   <div class="footer-bar">
-    <div class="footer-info">
-      Cycle <span id="f-cycle">1</span> &nbsp;·&nbsp;
-      Stage <span id="f-stage">1</span> &nbsp;·&nbsp;
-      Hand <span id="f-hand">—</span> / 10
+    <div class="footer-info">Cycle <span id="f-cycle">1</span> &nbsp;·&nbsp; Stage <span id="f-stage">1</span> &nbsp;·&nbsp; Hand <span id="f-hand">—</span> / 10</div>
+    <div class="footer-btns">
+      <button class="btn-footer record-btn" onclick="openRecord()"><span class="rec-dot"></span>Record</button>
+      <button class="btn-footer" onclick="askClear()">⟳ &nbsp;New Record</button>
     </div>
-    <button class="btn-new" onclick="askClear()">⟳ &nbsp;New Record</button>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- NEW RECORD CONFIRM MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <h2>Clear All Data?</h2>
-    <p>This resets the sheet for a new session and cannot be undone.</p>
+    <h2>Save & New Session?</h2>
+    <p>Current session will be saved to Record, then cleared for a new session.</p>
     <div class="modal-btns">
       <button class="btn-confirm cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-confirm danger" onclick="clearSheet()">Clear</button>
+      <button class="btn-confirm danger" onclick="saveAndClear()">Save & Clear</button>
     </div>
+  </div>
+</div>
+
+<!-- RECORD PANEL -->
+<div class="record-overlay" id="record-overlay">
+  <div class="record-panel">
+    <div class="record-header">
+      <div>
+        <h2>♠ &nbsp;Record</h2>
+        <div class="record-count" id="record-count">0 sessions saved</div>
+      </div>
+      <button class="btn-close" onclick="closeRecord()">✕ &nbsp;Close</button>
+    </div>
+    <div class="record-body" id="record-body"></div>
   </div>
 </div>
 
 <script>
-  /*
-    STATE STRUCTURE:
-    cycles = array of cycles
-    each cycle = { stages: [ { target, rows: [{unit, bet, res}] } ] }
-    A cycle ends when any stage hits its target → new cycle starts (unit=1, target=1)
-    A stage ends after 10 hands without hitting target → new stage starts with recalculated unit
-    totalAccLoss = running loss across all failed stages in current cycle (resets on cycle success)
-  */
-
   const MAX_HANDS = 10;
+  const STORAGE_KEY   = 'baccarat_current';
+  const SESSIONS_KEY  = 'baccarat_sessions';
   const tbody = document.getElementById('tbody');
 
-  let cycles = [];
+  let cycles      = [];
   let totalAccLoss = 0;
 
+  // ── Persistence ───────────────────────────────────────────────────────────
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ cycles, totalAccLoss }));
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const s = JSON.parse(raw);
+        cycles       = s.cycles;
+        totalAccLoss = s.totalAccLoss;
+        return true;
+      }
+    } catch(e) {}
+    return false;
+  }
+
+  function getSessions() {
+    try { return JSON.parse(localStorage.getItem(SESSIONS_KEY)) || []; } catch(e) { return []; }
+  }
+
+  function saveSessions(sessions) {
+    localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
+  }
+
+  function archiveCurrentSession() {
+    let hasData = false;
+    cycles.forEach(c => c.stages.forEach(s => s.rows.forEach(r => {
+      if (r.unit !== '' && r.bet !== '' && r.res !== '') hasData = true;
+    })));
+    if (!hasData) return;
+
+    const now      = new Date();
+    const dateKey  = now.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+    const timeStr  = now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12: true });
+    const sessions = getSessions();
+    const todayCount = sessions.filter(s => s.dateKey === dateKey).length;
+    const session = {
+      id: Date.now(),
+      date: dateKey + ' · ' + timeStr,
+      dateKey: dateKey,
+      dayNum: todayCount + 1,
+      cycles: JSON.parse(JSON.stringify(cycles)),
+      totalAccLoss
+    };
+    sessions.unshift(session);
+    saveSessions(sessions);
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
-    totalAccLoss = 0;
-    cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] }];
+    if (!loadState()) {
+      totalAccLoss = 0;
+      cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] }];
+    }
     render();
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────────
-  function currentCycle()  { return cycles[cycles.length - 1]; }
-  function currentStage()  { const c = currentCycle(); return c.stages[c.stages.length - 1]; }
-  function cycleNumber()   { return cycles.length; }
-  function stageNumber()   { return currentCycle().stages.length; }
+  function currentCycle() { return cycles[cycles.length - 1]; }
+  function currentStage() { const c = currentCycle(); return c.stages[c.stages.length - 1]; }
+  function cycleNumber()  { return cycles.length; }
+  function stageNumber()  { return currentCycle().stages.length; }
 
   function stagePnl(stage) {
     let pnl = 0;
@@ -319,53 +358,42 @@
   // ── Render ────────────────────────────────────────────────────────────────
   function render() {
     tbody.innerHTML = '';
-
-    let globalWins = 0, globalLosses = 0, globalRounds = 0, globalNet = 0;
-    let currentHandNum = 0;
+    let globalWins = 0, globalLosses = 0, globalRounds = 0, globalNet = 0, currentHandNum = 0;
 
     cycles.forEach((cycle, ci) => {
       const isLastCycle = ci === cycles.length - 1;
-
-      // Cycle start divider (not for first)
-      if (ci > 0) {
-        insertDivider(`— Cycle ${ci + 1} · Stage 1 · Unit: 1 · Target: +1 —`, 'cycle');
-      }
+      if (ci > 0) insertDivider(`— Cycle ${ci + 1} · Stage 1 · Unit: 1 · Target: +1 —`, 'cycle');
 
       cycle.stages.forEach((stage, si) => {
-        const isLastStage = si === cycle.stages.length - 1;
+        const isLastStage    = si === cycle.stages.length - 1;
         const isCurrentStage = isLastCycle && isLastStage;
-
-        // Stage divider (not for first stage of first cycle, not for first stage after cycle divider)
-        if (!(ci === 0 && si === 0) && !(ci > 0 && si === 0)) {
+        if (!(ci === 0 && si === 0) && !(ci > 0 && si === 0))
           insertDivider(`Stage ${si + 1} · Unit: ${stage.target} · Target: +${stage.target}`, 'stage');
-        }
 
         let stagePnlVal = 0;
-
         stage.rows.forEach((row, ri) => {
           const rowIndex = `${ci}-${si}-${ri}`;
-          const filled = row.unit !== '' && row.bet !== '' && row.res !== '';
-          let rowPnl = 0;
+          const filled   = row.unit !== '' && row.bet !== '' && row.res !== '';
 
           if (filled) {
             globalRounds++;
-            rowPnl = row.res === 'Win' ? parseFloat(row.unit) : -parseFloat(row.unit);
+            const u = parseFloat(row.unit);
+            const p = row.res === 'Win' ? u : -u;
             if (row.res === 'Win') globalWins++; else globalLosses++;
-            stagePnlVal = +(stagePnlVal + rowPnl).toFixed(2);
-            globalNet   = +(globalNet + rowPnl).toFixed(2);
+            stagePnlVal = +(stagePnlVal + p).toFixed(2);
+            globalNet   = +(globalNet + p).toFixed(2);
             if (isCurrentStage) currentHandNum = ri + 1;
           }
 
           const displayNum = filled ? String(ri + 1).padStart(2, '0') : '—';
-          const numCls = filled ? 'row-num active' : 'row-num';
+          const numCls     = filled ? 'row-num active' : 'row-num';
 
-          // P&L display
           let pnlHtml = '—';
           if (filled) {
-            const sign = stagePnlVal >= 0 ? '+' : '';
-            const cls  = stagePnlVal > 0 ? 'pnl-pos' : stagePnlVal < 0 ? 'pnl-neg' : 'pnl-zero';
+            const sign  = stagePnlVal >= 0 ? '+' : '';
+            const cls   = stagePnlVal > 0 ? 'pnl-pos' : stagePnlVal < 0 ? 'pnl-neg' : 'pnl-zero';
             const isHit = stagePnlVal >= stage.target && ri === stage.rows.length - 1 && !isCurrentStage;
-            const tag = isHit ? `<span class="hit-tag">✓ target hit</span>` : '';
+            const tag   = isHit ? `<span class="hit-tag">✓ target hit</span>` : '';
             pnlHtml = `<span class="${cls}">${sign}${stagePnlVal}</span>${tag}`;
           }
 
@@ -373,10 +401,7 @@
           tr.id = `tr-${rowIndex}`;
           tr.innerHTML = `
             <td><span class="${numCls}">${displayNum}</span></td>
-            <td><input type="number" id="unit-${rowIndex}" min="0" step="any"
-              placeholder="${stage.target}"
-              value="${row.unit}"
-              oninput="onInput('${rowIndex}','unit',this.value)" /></td>
+            <td><input type="number" id="unit-${rowIndex}" min="0" step="any" placeholder="${stage.target}" value="${row.unit}" oninput="onInput('${rowIndex}','unit',this.value)" /></td>
             <td>
               <select id="bet-${rowIndex}" onchange="onInput('${rowIndex}','bet',this.value)">
                 <option value="" ${row.bet===''?'selected':''}>— Select —</option>
@@ -405,66 +430,60 @@
           tbody.appendChild(tr);
 
           const resEl = document.getElementById(`res-${rowIndex}`);
-          if (resEl) {
-            resEl.classList.remove('sel-win','sel-loss');
-            if (row.res === 'Win')  resEl.classList.add('sel-win');
-            if (row.res === 'Loss') resEl.classList.add('sel-loss');
-          }
+          if (resEl) { resEl.classList.remove('sel-win','sel-loss'); if (row.res==='Win') resEl.classList.add('sel-win'); else if (row.res==='Loss') resEl.classList.add('sel-loss'); }
         });
       });
     });
 
-    // ── Status bar ────────────────────────────────────────────────────────
-    const cs = currentStage();
-    const csPnl = stagePnl(cs);
-    const csPnlSign = csPnl >= 0 ? '+' : '';
-
+    // Status bar
+    const cs     = currentStage();
+    const csPnl  = stagePnl(cs);
     document.getElementById('ch-cycle').textContent  = cycleNumber();
     document.getElementById('ch-stage').textContent  = stageNumber();
     document.getElementById('ch-target').textContent = `+${cs.target} unit${cs.target !== 1 ? 's' : ''}`;
-
     const pnlEl = document.getElementById('ch-pnl');
-    pnlEl.textContent = csPnlSign + csPnl;
+    pnlEl.textContent = (csPnl >= 0 ? '+' : '') + csPnl;
     pnlEl.className = 'si-value ' + (csPnl > 0 ? 'sv-pos' : csPnl < 0 ? 'sv-neg' : '');
-
     const accEl = document.getElementById('ch-accloss');
     accEl.textContent = totalAccLoss === 0 ? '0' : totalAccLoss;
     accEl.className = 'si-value ' + (totalAccLoss < 0 ? 'sv-neg' : '');
 
-    // Suggestion bar
     const sugBar = document.getElementById('suggestion-bar');
     if (totalAccLoss < 0) {
       const sug = Math.abs(totalAccLoss) + 1;
       document.getElementById('suggested-unit').textContent   = sug;
       document.getElementById('suggested-target').textContent = `+${sug}`;
       sugBar.classList.add('show');
-    } else {
-      sugBar.classList.remove('show');
-    }
+    } else { sugBar.classList.remove('show'); }
 
-    // Global stats
     document.getElementById('s-rounds').textContent = globalRounds;
     document.getElementById('s-wins').textContent   = globalWins;
     document.getElementById('s-losses').textContent = globalLosses;
+    const winRateEl = document.getElementById('s-winrate');
+    if (globalRounds === 0) {
+      winRateEl.textContent = '—';
+      winRateEl.className   = 'stat-value sv-neutral';
+    } else {
+      const wr = (globalWins / globalRounds) * 100;
+      winRateEl.textContent = wr.toFixed(1) + '%';
+      if (wr > 50)      winRateEl.className = 'stat-value sv-win';
+      else if (wr < 50) winRateEl.className = 'stat-value sv-loss';
+      else              winRateEl.className = 'stat-value sv-neutral';
+    }
     const netEl = document.getElementById('s-net');
     netEl.textContent = (globalNet >= 0 ? '+' : '') + globalNet;
     netEl.className = 'stat-value ' + (globalNet > 0 ? 'sv-pos' : globalNet < 0 ? 'sv-neg' : '');
-
     document.getElementById('f-cycle').textContent = cycleNumber();
     document.getElementById('f-stage').textContent = stageNumber();
     document.getElementById('f-hand').textContent  = currentHandNum || '—';
+
+    saveState();
   }
 
   function insertDivider(text, type) {
     const tr = document.createElement('tr');
     tr.className = 'stage-divider-row';
-    tr.innerHTML = `<td colspan="6">
-      <div class="stage-divider-inner">
-        <div class="sdl-line ${type}"></div>
-        <div class="sdl-text ${type}">${text}</div>
-        <div class="sdl-line ${type}"></div>
-      </div>
-    </td>`;
+    tr.innerHTML = `<td colspan="6"><div class="stage-divider-inner"><div class="sdl-line ${type}"></div><div class="sdl-text ${type}">${text}</div><div class="sdl-line ${type}"></div></div></td>`;
     tbody.appendChild(tr);
   }
 
@@ -477,50 +496,172 @@
   }
 
   function checkAndExpand(ci, si, ri) {
-    const isLastCycle = ci === cycles.length - 1;
+    if (ci !== cycles.length - 1) return;
     const cycle = cycles[ci];
-    const isLastStage = si === cycle.stages.length - 1;
-    if (!isLastCycle || !isLastStage) return;
-
-    const stage = cycle.stages[si];
-    const row   = stage.rows[ri];
+    if (si !== cycle.stages.length - 1) return;
+    const stage  = cycle.stages[si];
+    const row    = stage.rows[ri];
     const filled = row.unit !== '' && row.bet !== '' && row.res !== '';
     if (!filled) return;
 
-    // Recalc stage pnl up to this row
     let sp = 0;
     for (let r = 0; r <= ri; r++) {
       const rr = stage.rows[r];
       if (rr.unit !== '' && rr.bet !== '' && rr.res !== '') {
-        const u = parseFloat(rr.unit);
-        sp = +(sp + (rr.res === 'Win' ? u : -u)).toFixed(2);
+        sp = +(sp + (rr.res === 'Win' ? parseFloat(rr.unit) : -parseFloat(rr.unit))).toFixed(2);
       }
     }
 
     if (sp >= stage.target) {
-      // Target hit — new cycle
       totalAccLoss = 0;
       cycles.push({ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] });
-
     } else if (ri + 1 >= MAX_HANDS) {
-      // 10 hands done, target not hit — new stage
       totalAccLoss = +(totalAccLoss + sp).toFixed(2);
       const newTarget = Math.abs(totalAccLoss) + 1;
       cycle.stages.push({ target: newTarget, rows: [{ unit: '', bet: '', setup: '', res: '' }] });
-
     } else {
-      // Add next row in current stage
-      if (ri + 1 >= stage.rows.length) {
-        stage.rows.push({ unit: '', bet: '', setup: '', res: '' });
-      }
+      if (ri + 1 >= stage.rows.length) stage.rows.push({ unit: '', bet: '', setup: '', res: '' });
     }
+  }
+
+  // ── Record Panel ──────────────────────────────────────────────────────────
+  function openRecord() {
+    renderRecord();
+    document.getElementById('record-overlay').classList.add('show');
+  }
+
+  function closeRecord() {
+    document.getElementById('record-overlay').classList.remove('show');
+  }
+
+  function renderRecord() {
+    const sessions = getSessions();
+    const body     = document.getElementById('record-body');
+    document.getElementById('record-count').textContent = `${sessions.length} session${sessions.length !== 1 ? 's' : ''} saved`;
+
+    if (sessions.length === 0) {
+      body.innerHTML = '<div class="record-empty">♦ &nbsp; No sessions saved yet &nbsp; ♦</div>';
+      return;
+    }
+
+    body.innerHTML = '';
+    sessions.forEach((session, idx) => {
+      let totalHands = 0, wins = 0, losses = 0, netUnits = 0;
+      session.cycles.forEach(c => c.stages.forEach(s => s.rows.forEach(r => {
+        if (r.unit !== '' && r.bet !== '' && r.res !== '') {
+          totalHands++;
+          const u = parseFloat(r.unit);
+          if (r.res === 'Win') { wins++; netUnits = +(netUnits + u).toFixed(2); }
+          else { losses++; netUnits = +(netUnits - u).toFixed(2); }
+        }
+      })));
+
+      const netSign = netUnits >= 0 ? '+' : '';
+      const netCls  = netUnits > 0 ? 'sv-pos' : netUnits < 0 ? 'sv-neg' : '';
+      const wrVal   = totalHands > 0 ? (wins / totalHands) * 100 : null;
+      const wrText  = wrVal === null ? '—' : wrVal.toFixed(1) + '%';
+      const wrCls   = wrVal === null ? '' : wrVal > 50 ? 'sv-win' : wrVal < 50 ? 'sv-loss' : '';
+      // Session title: "Session N" within the day
+      const dayNum   = session.dayNum || (sessions.length - idx);
+      const titleStr = 'Session ' + dayNum;
+
+      const card = document.createElement('div');
+      card.className = 'session-card';
+      card.innerHTML = `
+        <div class="session-card-header" onclick="toggleSession(${session.id})">
+          <div>
+            <div class="session-title">${titleStr}</div>
+            <div class="session-date">${session.date}</div>
+          </div>
+          <span class="chevron" id="chev-${session.id}">▼</span>
+        </div>
+        <div class="session-summary">
+          <div class="ss-item"><span class="ss-label">Hands</span><span class="ss-value">${totalHands}</span></div>
+          <div class="ss-item"><span class="ss-label">Wins</span><span class="ss-value sv-win">${wins}</span></div>
+          <div class="ss-item"><span class="ss-label">Losses</span><span class="ss-value sv-loss">${losses}</span></div>
+          <div class="ss-item"><span class="ss-label">Win Rate</span><span class="ss-value ${wrCls}">${wrText}</span></div>
+          <div class="ss-item"><span class="ss-label">Cycles</span><span class="ss-value">${session.cycles.length}</span></div>
+          <div class="ss-item"><span class="ss-label">Net Units</span><span class="ss-value ${netCls}">${netSign}${netUnits}</span></div>
+        </div>
+        <div class="session-detail" id="detail-${session.id}">
+          ${buildDetailHTML(session)}
+          <button class="btn-delete-session" onclick="deleteSession(${session.id})">✕ &nbsp;Delete Session</button>
+        </div>
+      `;
+      body.appendChild(card);
+    });
+  }
+
+  function buildDetailHTML(session) {
+    // Single table for the whole session — dividers are inline <tr> rows
+    let rows = '';
+    session.cycles.forEach((cycle, ci) => {
+      if (ci > 0) rows += miniTr(`— Cycle ${ci + 1} · Stage 1 · Unit: 1 · Target: +1 —`, 'cycle');
+      cycle.stages.forEach((stage, si) => {
+        if (!(ci === 0 && si === 0) && !(ci > 0 && si === 0))
+          rows += miniTr(`Stage ${si + 1} · Unit: ${stage.target} · Target: +${stage.target}`, 'stage');
+        let sp = 0;
+        stage.rows.forEach((row, ri) => {
+          if (row.unit === '' || row.bet === '' || row.res === '') return;
+          const u   = parseFloat(row.unit);
+          const p   = row.res === 'Win' ? u : -u;
+          sp = +(sp + p).toFixed(2);
+          const resCls = row.res === 'Win' ? 'mt-win' : 'mt-loss';
+          const pCls   = sp > 0 ? 'mt-pos' : sp < 0 ? 'mt-neg' : '';
+          const sign   = sp >= 0 ? '+' : '';
+          rows += `<tr>
+            <td class="num">${String(ri+1).padStart(2,'0')}</td>
+            <td>${u}</td>
+            <td>${row.bet}</td>
+            <td>${row.setup || '—'}</td>
+            <td class="${resCls}">${row.res}</td>
+            <td class="${pCls}">${sign}${sp}</td>
+          </tr>`;
+        });
+      });
+    });
+    return `<table class="mini-table"><thead><tr>
+      <th>#</th><th>Unit</th><th>Bet</th><th>Setup</th><th>Result</th><th>P&L</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+  }
+
+  function miniTr(text, type) {
+    return `<tr class="mini-div-tr mini-div-${type}"><td colspan="6">
+      <div class="mini-divider"><div class="mini-divider-line ${type}"></div><div class="mini-divider-text ${type}">${text}</div><div class="mini-divider-line ${type}"></div></div>
+    </td></tr>`;
+  }
+
+  function miniDivider(text, type) {
+    return `<div class="mini-divider"><div class="mini-divider-line ${type}"></div><div class="mini-divider-text ${type}">${text}</div><div class="mini-divider-line ${type}"></div></div>`;
+  }
+
+  function toggleSession(id) {
+    const detail = document.getElementById(`detail-${id}`);
+    const chev   = document.getElementById(`chev-${id}`);
+    detail.classList.toggle('open');
+    chev.classList.toggle('open');
+  }
+
+  function deleteSession(id) {
+    let sessions = getSessions().filter(s => s.id !== id);
+    saveSessions(sessions);
+    renderRecord();
   }
 
   // ── Controls ──────────────────────────────────────────────────────────────
   function askClear() { document.getElementById('overlay').classList.add('show'); }
   function closeModal() { document.getElementById('overlay').classList.remove('show'); }
-  function clearSheet() { closeModal(); init(); }
+
+  function saveAndClear() {
+    closeModal();
+    archiveCurrentSession();
+    totalAccLoss = 0;
+    cycles = [{ stages: [{ target: 1, rows: [{ unit: '', bet: '', setup: '', res: '' }] }] }];
+    render();
+  }
+
   document.getElementById('overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  document.getElementById('record-overlay').addEventListener('click', function(e) { if (e.target === this) closeRecord(); });
 
   init();
 </script>
